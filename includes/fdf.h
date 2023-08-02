@@ -6,7 +6,7 @@
 /*   By: bkaztaou <bkaztaou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 19:19:59 by bkaztaou          #+#    #+#             */
-/*   Updated: 2023/07/31 13:22:29 by bkaztaou         ###   ########.fr       */
+/*   Updated: 2023/08/02 10:07:16 by bkaztaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef struct s_image
 	int		endian;
 }	t_image;
 
+typedef struct s_fdf
+{
+	t_window	win;
+	t_image		img;
+	t_map		map;
+}	t_fdf;
+
 typedef struct s_point
 {
 	int	x0;
@@ -61,7 +68,7 @@ typedef struct s_point
 	int	color;
 }	t_point;
 
-void	read_map(int fd, t_image *img, t_map *map);
+void	read_map(int fd, t_window *win, t_image *img, t_map *map);
 void	ft_error(char *err);
 char	*ft_newline(char *str);
 char	*get_next_line(int fd);
@@ -70,7 +77,7 @@ int		ft_matricelen(char **matrice);
 char	*ft_flatmap(int fd, t_map *map);
 void	ft_fillmatrice(char *stash, t_map *map);
 void	ft_printmatrice(t_map *map);
-void	bresenhams(t_image *img, t_point pt);
+void	bresenhams(t_image *img, t_point pt, char dir);
 void	ft_putpixel(t_image *img, int x, int y, int color);
 
 #endif

@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: bkaztaou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/02 07:40:24 by bkaztaou          #+#    #+#             */
+/*   Updated: 2023/08/02 07:43:08 by bkaztaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: bkaztaou <bkaztaou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 19:23:35 by bkaztaou          #+#    #+#             */
-/*   Updated: 2023/07/31 16:33:12 by bkaztaou         ###   ########.fr       */
+/*   Updated: 2023/08/02 07:39:55 by bkaztaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +38,14 @@ static int	set_err(int dx, int dy)
 	return (-dy / 2);
 }
 
-void	bresenhams(t_image *img, t_point pt)
+static int	check_dir(t_point *pt, char dir)
+{
+	if (dir == 'x')
+		return (pt->x0 != pt->x1);
+	return (pt->y0 != pt->y1);
+}
+
+void	bresenhams(t_image *img, t_point pt, char dir)
 {
 	int	dx;
 	int	dy;
@@ -38,9 +57,9 @@ void	bresenhams(t_image *img, t_point pt)
 	pt.xinc = set_incs(pt.x0, pt.x1);
 	pt.yinc = set_incs(pt.y0, pt.y1);
 	err = set_err(dx, dy);
-	while (pt.x0 != pt.x1 && pt.y0 != pt.y1)
+	while (check_dir(&pt, dir))
 	{
-		ft_putpixel(img, pt.x0, pt.y0, 0xFF0000);
+		ft_putpixel(img, pt.x0, pt.y0, 0xFFFFFF);
 		e2 = err;
 		if (e2 > -dx)
 		{

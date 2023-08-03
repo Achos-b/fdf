@@ -6,20 +6,20 @@
 /*   By: bkaztaou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:02:56 by bkaztaou          #+#    #+#             */
-/*   Updated: 2023/08/02 10:18:38 by bkaztaou         ###   ########.fr       */
+/*   Updated: 2023/08/02 10:40:33 by bkaztaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	ft_putpixel(t_image *image, int x, int y, int color)
+void	ft_putpixel(t_fdf *fdf, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < 1900 && y >= 0 && y < 1200)
+	if (x >= 0 && x < fdf->win.win_w && y >= 0 && y < fdf->win.win_h)
 	{
-		dst = image->addr + (y * image->line_length + x
-				* (image->bits_per_pixel / 8));
+		dst = fdf->img.addr + (y * fdf->img.line_length + x
+				* (fdf->img.bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }
@@ -41,7 +41,7 @@ void	ft_set_map(int fd, t_fdf *fdf)
 			fdf->win.win_w, fdf->win.win_h, "fdf");
 	fdf->img.addr = mlx_get_data_addr(fdf->img.img, &fdf->img.bits_per_pixel,
 			&fdf->img.line_length, &fdf->img.endian);
-	read_map(fd, &fdf->win, &fdf->img, &fdf->map);
+	read_map(fd, fdf);
 	mlx_put_image_to_window(fdf->win.mlx, fdf->win.mlx_win, fdf->img.img, 0, 0);
 }
 

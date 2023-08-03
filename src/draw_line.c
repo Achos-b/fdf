@@ -6,7 +6,7 @@
 /*   By: bkaztaou <bkaztaou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 19:23:35 by bkaztaou          #+#    #+#             */
-/*   Updated: 2023/08/02 10:23:09 by bkaztaou         ###   ########.fr       */
+/*   Updated: 2023/08/03 01:18:47 by bkaztaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,28 @@ static int	check_dir(t_point *pt, char dir)
 	return (pt->y0 != pt->y1);
 }
 
-void	bresenhams(t_image *img, t_point pt, char dir)
+static int	ft_sp(t_fdf *fdf, t_point *pt, char dir)
+{
+	int	start_pos;
+	int	win_pos;
+	int	shape_pos;
+
+	if (dir == 'x')
+	{
+		win_pos = fdf->win.win_w / 2;
+		shape_pos = (fdf->map.x * (fdf->win.win_h / 30)) / 2;
+		start_pos = win_pos - shape_pos + pt->x0;
+	}
+	else
+	{
+		win_pos = fdf->win.win_h / 2;
+		shape_pos = (fdf->map.y * (fdf->win.win_h / 30)) / 2;
+		start_pos = win_pos - shape_pos + pt->y0;
+	}
+	return (start_pos);
+}
+
+void	bresenhams(t_fdf *fdf, t_point pt, char dir)
 {
 	int	dx;
 	int	dy;
@@ -47,7 +68,7 @@ void	bresenhams(t_image *img, t_point pt, char dir)
 	err = set_err(dx, dy);
 	while (check_dir(&pt, dir))
 	{
-		ft_putpixel(img, pt.x0, pt.y0, 0xFFFFFF);
+		ft_putpixel(fdf, ft_sp(fdf, &pt, 'x'), ft_sp(fdf, &pt, 'y'), 0xFFFFFF);
 		e2 = err;
 		if (e2 > -dx)
 		{

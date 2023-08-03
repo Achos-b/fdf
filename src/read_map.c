@@ -6,7 +6,7 @@
 /*   By: bkaztaou <bkaztaou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 19:56:19 by bkaztaou          #+#    #+#             */
-/*   Updated: 2023/08/02 10:06:53 by bkaztaou         ###   ########.fr       */
+/*   Updated: 2023/08/03 00:59:44 by bkaztaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,24 @@ t_point	initialize_pt(int i, int j, t_window *win, char dir)
 	return (pt);
 }
 
-void	read_map(int fd, t_window *win, t_image *img, t_map *map)
+void	read_map(int fd, t_fdf *fdf)
 {
 	char	*stash;
 	int		i;
 	int		j;
 
-	stash = ft_flatmap(fd, map);
-	ft_fillmatrice(stash, map);
+	stash = ft_flatmap(fd, &fdf->map);
+	ft_fillmatrice(stash, &fdf->map);
 	i = -1;
-	j = -1;
-	while (++i <= map->y)
+	while (++i <= fdf->map.y)
 	{
 		j = -1;
-		while (++j <= map->x)
+		while (++j <= fdf->map.x)
 		{
-			if (j < map->x)
-				bresenhams(img, initialize_pt(i, j, win, 'x'), 'x');
-			if (i < map->y)
-				bresenhams(img, initialize_pt(i, j, win, 'y'), 'y');
+			if (j < fdf->map.x)
+				bresenhams(fdf, initialize_pt(i, j, &fdf->win, 'x'), 'x');
+			if (i < fdf->map.y)
+				bresenhams(fdf, initialize_pt(i, j, &fdf->win, 'y'), 'y');
 		}
 	}
 }
